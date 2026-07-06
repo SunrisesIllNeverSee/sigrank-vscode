@@ -1,0 +1,133 @@
+{
+  "name": "sigrank",
+  "displayName": "SigRank",
+  "description": "Token cascade metrics, leaderboard rank, and MCP bridge — right in VS Code",
+  "version": "0.1.0",
+  "publisher": "sigrank",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": ["Other", "Machine Learning", "Data Visualization"],
+  "keywords": ["ai", "tokens", "leaderboard", "cascade", "efficiency", "mcp"],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "sigrank.refresh",
+        "title": "SigRank: Refresh Metrics",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "sigrank.openDashboard",
+        "title": "SigRank: Open Dashboard"
+      },
+      {
+        "command": "sigrank.openLeaderboard",
+        "title": "SigRank: Open Leaderboard"
+      },
+      {
+        "command": "sigrank.submitSnapshot",
+        "title": "SigRank: Submit Signed Snapshot"
+      },
+      {
+        "command": "sigrank.dryRun",
+        "title": "SigRank: Dry Run (Inspect Payload)"
+      },
+      {
+        "command": "sigrank.startMcpServer",
+        "title": "SigRank: Start MCP Server"
+      },
+      {
+        "command": "sigrank.stopMcpServer",
+        "title": "SigRank: Stop MCP Server"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "sigrank-sidebar",
+          "title": "SigRank",
+          "icon": "media/sigrank-icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "sigrank-sidebar": [
+        {
+          "id": "sigrank.cascadeView",
+          "name": "Cascade",
+          "type": "webview"
+        },
+        {
+          "id": "sigrank.leaderboardView",
+          "name": "Leaderboard",
+          "type": "webview"
+        }
+      ]
+    },
+    "menus": {
+      "view/title": [
+        {
+          "command": "sigrank.refresh",
+          "when": "view == sigrank.cascadeView || view == sigrank.leaderboardView",
+          "group": "navigation"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "SigRank",
+      "properties": {
+        "sigrank.autoRefresh": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically refresh metrics when the extension loads"
+        },
+        "sigrank.refreshIntervalSeconds": {
+          "type": "number",
+          "default": 300,
+          "minimum": 60,
+          "description": "How often to auto-refresh metrics (in seconds)"
+        },
+        "sigrank.mcpServerEnabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Start the MCP server automatically when VS Code opens"
+        },
+        "sigrank.apiBaseUrl": {
+          "type": "string",
+          "default": "https://signalaf.com",
+          "description": "SigRank API base URL (change for self-hosted)"
+        },
+        "sigrank.statusBarFormat": {
+          "type": "string",
+          "default": "Υ {yield} · {class}",
+          "description": "Status bar format. Variables: {yield}, {leverage}, {velocity}, {snr}, {class}, {rank}"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js",
+    "package": "vsce package",
+    "publish": "vsce publish"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.85.0",
+    "@types/node": "^20.11.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "eslint": "^8.57.0",
+    "typescript": "^5.3.0",
+    "@vscode/test-electron": "^2.3.8"
+  },
+  "dependencies": {}
+}
