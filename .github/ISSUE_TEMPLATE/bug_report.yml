@@ -1,0 +1,50 @@
+name: Bug Report
+description: Report a bug in the SigRank VS Code Extension
+title: "[BUG]: "
+labels: ["bug", "triage"]
+body:
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: A clear description of the bug.
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      description: Which part of the extension is affected?
+      options:
+        - Status bar
+        - Sidebar dashboard
+        - Leaderboard view
+        - MCP server bridge
+        - Commands
+        - Configuration
+        - Other / not sure
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open VS Code
+        2. Run command ...
+        3. See ...
+    validations:
+      required: false
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      placeholder: "VS Code 1.95, Node 20, macOS 14"
+    validations:
+      required: true
