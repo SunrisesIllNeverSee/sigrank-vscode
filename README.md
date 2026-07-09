@@ -1,6 +1,41 @@
 # SigRank — VS Code Extension
 
+<div align="center">
+
+[![license](https://img.shields.io/badge/license-MIT-green.svg?style=flat-square)](./LICENSE)
+[![platform](https://img.shields.io/badge/platform-VS%20Code-blue.svg?style=flat-square&logo=visualstudiocode)](https://code.visualstudio.com)
+[![live](https://img.shields.io/badge/site-signalaf.com-gold.svg?style=flat-square)](https://signalaf.com)
+[![MCP](https://img.shields.io/badge/MCP-bridge-purple.svg?style=flat-square)](https://modelcontextprotocol.io)
+
+</div>
+
 Token cascade metrics, leaderboard rank, and MCP bridge — right in VS Code.
+
+## Why use the extension?
+
+The SigRank CLI (`npx sigrank`) gives you the full TUI dashboard. The VS Code extension brings the same metrics to where you already work — your editor — with:
+- **Status bar** — live Υ Yield + class tier, always visible while coding
+- **Sidebar dashboard** — full cascade metrics without leaving the editor
+- **Leaderboard view** — see where you rank without context-switching
+- **MCP bridge** — let Copilot or Claude Code call SigRank tools directly from VS Code
+
+## Installation
+
+### From VS Code Marketplace
+1. Open VS Code
+2. Go to Extensions (`Ctrl+Shift+X` / `Cmd+Shift+X`)
+3. Search for "SigRank"
+4. Click Install
+
+### From .vsix
+```bash
+code --install-extension sigrank-vscode-x.x.x.vsix
+```
+
+### Prerequisites
+- Node ≥ 18
+- `npx sigrank` (auto-installed on first run)
+- macOS or Linux
 
 ## Features
 
@@ -48,6 +83,14 @@ Optionally runs the SigRank MCP server inside VS Code so AI clients (Copilot, Cl
 
 Token counts only. Never your prompts. The extension reads local session logs and publishes signed token counts — four integers and a signature. No prompt content, no code, no transcripts. Run `SigRank: Dry Run` to inspect the exact payload before anything leaves your machine.
 
+## Contributing
+
+Contributions welcome.
+
+- Report bugs via [GitHub Issues](https://github.com/SunrisesIllNeverSee/sigrank-vscode/issues)
+- PRs: fork → branch → `npx tsc --noEmit` clean → open PR against `main`
+- See [sigrank-mcp](https://github.com/SunrisesIllNeverSee/sigrank-mcp) for the underlying CLI and MCP server
+
 ## License
 
-MIT
+MIT — see [`LICENSE`](./LICENSE).
