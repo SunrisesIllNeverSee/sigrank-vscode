@@ -1,0 +1,18 @@
+# CODEOWNERS — auto-requests review on PRs touching critical paths.
+# If SunrisesIllNeverSee is an organization (not a user account), replace the
+# handle below with @SunrisesIllNeverSee/<team-slug>.
+
+# MCP server bridge — spawns sigrank CLI child process
+/src/mcpServer.ts    @SunrisesIllNeverSee
+
+# API client — talks to signalaf.com + runs sigrank CLI
+/src/sigrankClient.ts @SunrisesIllNeverSee
+
+# Cascade scoring display — the Υ formula rendering
+/src/cascadeProvider.ts @SunrisesIllNeverSee
+
+# CI / security workflows + governance
+/.github/            @SunrisesIllNeverSee
+
+# Extension entry point + activation
+/src/extension.ts    @SunrisesIllNeverSee

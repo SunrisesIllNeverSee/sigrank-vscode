@@ -1,0 +1,12 @@
+# gitleaks config — extends the built-in rule set.
+# Auto-detected by gitleaks when present at the repo root.
+title = "SigRank VS Code gitleaks config"
+
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Test files use ephemeral/generated keys, not real secrets"
+paths = [
+  '''src/test/.*''',
+]
