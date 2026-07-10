@@ -34,11 +34,11 @@ export class McpServerManager {
     })
 
     this.proc.stdout?.on('data', (d) => {
-      this.outputChannel.append(`[stdout] ${d}`)
+      this.outputChannel.appendLine(`[stdout] ${d}`)
     })
 
     this.proc.stderr?.on('data', (d) => {
-      this.outputChannel.append(`[stderr] ${d}`)
+      this.outputChannel.appendLine(`[stderr] ${d}`)
     })
 
     this.proc.on('error', (err) => {

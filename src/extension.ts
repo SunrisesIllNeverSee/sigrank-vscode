@@ -4,8 +4,6 @@ import { StatusBar } from './statusBar'
 import { CascadeProvider } from './cascadeProvider'
 import { LeaderboardProvider } from './leaderboardProvider'
 import { McpServerManager } from './mcpServer'
-import type { TokenPullResult, LeaderboardEntry, CascadeMetrics } from './types'
-
 let client: SigrankClient
 let statusBar: StatusBar
 let cascadeProvider: CascadeProvider
@@ -95,9 +93,10 @@ async function refreshCascade() {
       statusBar.update(null)
       cascadeProvider.update(null)
     }
-  } catch (err: any) {
-    statusBar.setError(err.message)
-    cascadeProvider.setError(err.message)
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err)
+    statusBar.setError(message)
+    cascadeProvider.setError(message)
   }
 }
 
@@ -105,8 +104,9 @@ async function refreshLeaderboard() {
   try {
     const entries = await client.getLeaderboard()
     leaderboardProvider.update(entries)
-  } catch (err: any) {
-    leaderboardProvider.setError(err.message)
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err)
+    leaderboardProvider.setError(message)
   }
 }
 
@@ -146,8 +146,9 @@ async function submitSnapshot() {
     } else {
       vscode.window.showWarningMessage(`SigRank: ${result.message}`)
     }
-  } catch (err: any) {
-    vscode.window.showErrorMessage(`SigRank submit failed: ${err.message}`)
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err)
+    vscode.window.showErrorMessage(`SigRank submit failed: ${message}`)
   }
 }
 
@@ -159,7 +160,8 @@ async function dryRun() {
     channel.appendLine('=== SigRank submit --dry-run ===')
     channel.append(output)
     channel.appendLine('\n=== End — nothing was sent ===')
-  } catch (err: any) {
-    vscode.window.showErrorMessage(`SigRank dry run failed: ${err.message}`)
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err)
+    vscode.window.showErrorMessage(`SigRank dry run failed: ${message}`)
   }
 }

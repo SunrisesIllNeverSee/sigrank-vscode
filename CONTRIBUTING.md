@@ -5,7 +5,7 @@ Thanks for your interest! This is the VS Code extension for SigRank — token ca
 ## Quick start
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/SunrisesIllNeverSee/sigrank-vscode
 cd sigrank-vscode
 npm install
 npm run compile

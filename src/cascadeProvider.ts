@@ -1,5 +1,6 @@
 import * as vscode from 'vscode'
 import type { TokenPullResult, CascadeMetrics } from './types'
+import { escapeHtml, fmtNum, fmtInt } from './utils'
 
 export class CascadeProvider implements vscode.WebviewViewProvider {
   public static readonly viewType = 'sigrank.cascadeView'
@@ -51,7 +52,7 @@ export class CascadeProvider implements vscode.WebviewViewProvider {
       const p = w.pillars
       return `
         <div class="window-card">
-          <div class="window-label">${w.window}</div>
+          <div class="window-label">${escapeHtml(w.window)}</div>
           <div class="metrics-grid">
             <div class="metric headline">
               <span class="metric-label">Υ Yield</span>
@@ -73,7 +74,7 @@ export class CascadeProvider implements vscode.WebviewViewProvider {
               <span class="metric-label">10xDEV</span>
               <span class="metric-value">${c.tenx_dev !== null ? fmtNum(c.tenx_dev) : '—'}</span>
             </div>
-            <div class="metric class-badge class-${c.class.toLowerCase().replace(/[^a-z0-9]/g, '')}">
+            <div class="metric class-badge class-${escapeHtml(c.class.toLowerCase().replace(/[^a-z0-9]/g, ''))}">
               <span class="metric-label">Class</span>
               <span class="metric-value">${c.class}</span>
             </div>
@@ -85,7 +86,7 @@ export class CascadeProvider implements vscode.WebviewViewProvider {
             <span title="Cache-read">CR ${fmtInt(p.cacheRead)}</span>
           </div>
           ${w.estimated ? '<div class="badge estimated">estimated</div>' : ''}
-          ${w.dataGap ? `<div class="badge datagap">${w.dataGap}</div>` : ''}
+          ${w.dataGap ? `<div class="badge datagap">${escapeHtml(w.dataGap)}</div>` : ''}
           ${c.warnings.length > 0 ? `<div class="warnings">${c.warnings.map((w) => `<div>⚠ ${w}</div>`).join('')}</div>` : ''}
         </div>
       `
@@ -255,7 +256,7 @@ export class CascadeProvider implements vscode.WebviewViewProvider {
     </div>
   ` : ''}
   ${hasData ? windowCards : ''}
-  ${hasData && windows[0]?.cascade?.card ? `<div class="card-text">${windows[0].cascade.card}</div>` : ''}
+  ${hasData && windows[0]?.cascade?.card ? `<div class="card-text">${escapeHtml(windows[0].cascade.card)}</div>` : ''}
   ${hasData ? `
     <div class="actions">
       <button class="btn" onclick="send('submit')">Submit to board</button>
@@ -269,16 +270,5 @@ export class CascadeProvider implements vscode.WebviewViewProvider {
 </body>
 </html>`
 
-    function fmtNum(n: number): string {
-      if (n >= 100) return n.toFixed(0)
-      if (n >= 10) return n.toFixed(1)
-      if (n >= 1) return n.toFixed(2)
-      return n.toFixed(3)
-    }
-    function fmtInt(n: number): string {
-      if (n >= 1_000_000) return (n / 1_000_000).toFixed(1) + 'M'
-      if (n >= 1_000) return (n / 1_000).toFixed(1) + 'K'
-      return n.toString()
-    }
   }
 }

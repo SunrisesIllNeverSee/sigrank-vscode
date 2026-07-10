@@ -54,7 +54,8 @@ export class SigrankClient {
       if (Array.isArray(data)) return data as LeaderboardEntry[]
       if (data.operators && Array.isArray(data.operators)) return data.operators as LeaderboardEntry[]
       return []
-    } catch {
+    } catch (err: unknown) {
+      console.error('[sigrank] Failed to fetch leaderboard from API:', err instanceof Error ? err.message : err)
       // Fallback: try CLI
       const out = await this.runCli(['board', '--json'])
       return this.parseJson(out, [])
@@ -101,7 +102,8 @@ export class SigrankClient {
       const resp = await fetch(url)
       if (!resp.ok) return null
       return await resp.json() as OperatorProfile
-    } catch {
+    } catch (err: unknown) {
+      console.error('[sigrank] Failed to fetch operator profile:', err instanceof Error ? err.message : err)
       return null
     }
   }
@@ -114,7 +116,8 @@ export class SigrankClient {
       if (jsonStart === -1) return fallback
       const jsonStr = trimmed.slice(jsonStart)
       return JSON.parse(jsonStr) as T
-    } catch {
+    } catch (err: unknown) {
+      console.error('[sigrank] Failed to parse CLI output:', err instanceof Error ? err.message : err)
       return fallback
     }
   }

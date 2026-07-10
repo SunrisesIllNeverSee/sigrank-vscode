@@ -1,5 +1,6 @@
 import * as vscode from 'vscode'
 import type { LeaderboardEntry } from './types'
+import { escapeHtml, fmtNum } from './utils'
 
 export class LeaderboardProvider implements vscode.WebviewViewProvider {
   public static readonly viewType = 'sigrank.leaderboardView'
@@ -156,15 +157,5 @@ export class LeaderboardProvider implements vscode.WebviewViewProvider {
   </script>
 </body>
 </html>`
-
-    function fmtNum(n: number): string {
-      if (n >= 100) return n.toFixed(0)
-      if (n >= 10) return n.toFixed(1)
-      if (n >= 1) return n.toFixed(2)
-      return n.toFixed(3)
-    }
-    function escapeHtml(s: string): string {
-      return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-    }
   }
 }

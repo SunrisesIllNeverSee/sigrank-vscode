@@ -4,7 +4,17 @@
   "description": "Token cascade metrics, leaderboard rank, and MCP bridge — right in VS Code",
   "version": "0.1.0",
   "publisher": "sigrank",
+  "author": "SunrisesIllNeverSee (https://github.com/SunrisesIllNeverSee)",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SunrisesIllNeverSee/sigrank-vscode.git"
+  },
+  "galleryBanner": {
+    "color": "#0d1117",
+    "theme": "dark"
+  },
+  "changelog": "CHANGELOG.md",
   "engines": {
     "vscode": "^1.85.0"
   },
@@ -116,18 +126,19 @@
     "watch": "tsc -watch -p ./",
     "pretest": "npm run compile && npm run lint",
     "lint": "eslint src --ext ts",
-    "test": "node ./out/test/runTest.js",
+    "test": "npm run compile && node --test out/test/*.test.js",
     "package": "vsce package",
     "publish": "vsce publish"
   },
   "devDependencies": {
     "@types/vscode": "^1.85.0",
-    "@types/node": "^20.11.0",
-    "@typescript-eslint/eslint-plugin": "^7.0.0",
-    "@typescript-eslint/parser": "^7.0.0",
-    "eslint": "^8.57.0",
-    "typescript": "^5.3.0",
-    "@vscode/test-electron": "^2.3.8"
+    "@types/node": "^20.14.0",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "eslint": "^9.0.0",
+    "typescript": "^5.6.0",
+    "@vscode/test-electron": "^2.3.8",
+    "@vscode/vsce": "^3.2.0"
   },
   "dependencies": {}
 }

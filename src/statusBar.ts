@@ -1,5 +1,6 @@
 import * as vscode from 'vscode'
 import type { CascadeMetrics } from './types'
+import { fmtNum } from './utils'
 
 const CLASS_GLYPHS: Record<string, string> = {
   TRANSMITTER: '◈',
@@ -40,15 +41,15 @@ export class StatusBar {
     const glyph = CLASS_GLYPHS[metrics.class] || ''
 
     const text = fmt
-      .replace('{yield}', this.fmtNum(metrics.yield_))
-      .replace('{leverage}', this.fmtNum(metrics.leverage))
-      .replace('{velocity}', this.fmtNum(metrics.velocity))
-      .replace('{snr}', this.fmtNum(metrics.snr))
+      .replace('{yield}', fmtNum(metrics.yield_))
+      .replace('{leverage}', fmtNum(metrics.leverage))
+      .replace('{velocity}', fmtNum(metrics.velocity))
+      .replace('{snr}', fmtNum(metrics.snr))
       .replace('{class}', glyph ? `${glyph} ${metrics.class}` : metrics.class)
       .replace('{rank}', '—')
 
     this.item.text = `$(pulse) ${text}`
-    this.item.tooltip = metrics.card || `Υ ${this.fmtNum(metrics.yield_)} · ${metrics.class}`
+    this.item.tooltip = metrics.card || `Υ ${fmtNum(metrics.yield_)} · ${metrics.class}`
   }
 
   setError(msg: string) {
@@ -71,13 +72,6 @@ export class StatusBar {
       clearInterval(this.refreshTimer)
       this.refreshTimer = undefined
     }
-  }
-
-  private fmtNum(n: number): string {
-    if (n >= 100) return n.toFixed(0)
-    if (n >= 10) return n.toFixed(1)
-    if (n >= 1) return n.toFixed(2)
-    return n.toFixed(3)
   }
 
   dispose() {
