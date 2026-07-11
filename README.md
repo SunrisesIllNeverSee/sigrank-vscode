@@ -11,6 +11,18 @@
 
 Token cascade metrics, leaderboard rank, and MCP bridge — right in VS Code.
 
+## Table of Contents
+
+- [Why use the extension?](#why-use-the-extension)
+- [Installation](#installation)
+- [Features](#features)
+- [Commands](#commands)
+- [Configuration](#configuration)
+- [Requirements](#requirements)
+- [Privacy](#privacy)
+- [Contributing](#contributing)
+- [License](#license)
+
 ## Why use the extension?
 
 The SigRank CLI (`npx sigrank`) gives you the full TUI dashboard. The VS Code extension brings the same metrics to where you already work — your editor — with:
