@@ -15,8 +15,8 @@ export class SigrankClient {
     this.apiBaseUrl = vscode.workspace.getConfiguration('sigrank').get('apiBaseUrl', 'https://signalaf.com')
   }
 
-  /** Run `npx sigrank <args>` and capture JSON stdout. */
-  private runCli(args: string[]): Promise<string> {
+  /** Run `npx sigrank <args>` and capture JSON stdout. Times out after 30s. */
+  private runCli(args: string[], timeoutMs = 30_000): Promise<string> {
     return new Promise((resolve, reject) => {
       const proc = cp.spawn('npx', ['--yes', 'sigrank', ...args], {
         cwd: vscode.workspace.rootPath || process.env.HOME,
@@ -26,19 +26,36 @@ export class SigrankClient {
 
       let stdout = ''
       let stderr = ''
+      let settled = false
+
+      const timer = setTimeout(() => {
+        if (!settled) {
+          settled = true
+          try { proc.kill('SIGKILL') } catch { /* already dead */ }
+          reject(new Error(`sigrank timed out after ${timeoutMs / 1000}s: ${stderr.slice(0, 500)}`))
+        }
+      }, timeoutMs)
 
       proc.stdout.on('data', (d) => { stdout += d.toString() })
       proc.stderr.on('data', (d) => { stderr += d.toString() })
 
       proc.on('error', (err) => {
-        reject(new Error(`Failed to run sigrank: ${err.message}`))
+        if (!settled) {
+          settled = true
+          clearTimeout(timer)
+          reject(new Error(`Failed to run sigrank: ${err.message}`))
+        }
       })
 
       proc.on('close', (code) => {
-        if (code !== 0) {
-          reject(new Error(`sigrank exited ${code}: ${stderr.slice(0, 500)}`))
-        } else {
-          resolve(stdout)
+        if (!settled) {
+          settled = true
+          clearTimeout(timer)
+          if (code !== 0) {
+            reject(new Error(`sigrank exited ${code}: ${stderr.slice(0, 500)}`))
+          } else {
+            resolve(stdout)
+          }
         }
       })
     })
@@ -47,11 +64,15 @@ export class SigrankClient {
   /** Fetch the live leaderboard from the API. */
   async getLeaderboard(): Promise<LeaderboardEntry[]> {
     try {
-      const url = `${this.apiBaseUrl}/api/leaderboard`
-      const resp = await fetch(url)
+      const url = `${this.apiBaseUrl}/api/v1/leaderboard`
+      const ctrl = new AbortController()
+      const timer = setTimeout(() => ctrl.abort(), 15_000)
+      const resp = await fetch(url, { signal: ctrl.signal })
+      clearTimeout(timer)
       if (!resp.ok) throw new Error(`HTTP ${resp.status}`)
       const data: any = await resp.json()
       if (Array.isArray(data)) return data as LeaderboardEntry[]
+      if (data.entries && Array.isArray(data.entries)) return data.entries as LeaderboardEntry[]
       if (data.operators && Array.isArray(data.operators)) return data.operators as LeaderboardEntry[]
       return []
     } catch (err: unknown) {
@@ -98,8 +119,11 @@ export class SigrankClient {
   /** Get operator profile by codename. */
   async getOperator(codename: string): Promise<OperatorProfile | null> {
     try {
-      const url = `${this.apiBaseUrl}/api/operator/${encodeURIComponent(codename)}`
-      const resp = await fetch(url)
+      const url = `${this.apiBaseUrl}/api/v1/operators/${encodeURIComponent(codename)}`
+      const ctrl = new AbortController()
+      const timer = setTimeout(() => ctrl.abort(), 15_000)
+      const resp = await fetch(url, { signal: ctrl.signal })
+      clearTimeout(timer)
       if (!resp.ok) return null
       return await resp.json() as OperatorProfile
     } catch (err: unknown) {

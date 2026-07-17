@@ -18,6 +18,7 @@ module.exports = [
         setInterval: 'readonly',
         clearInterval: 'readonly',
         fetch: 'readonly',
+        AbortController: 'readonly',
         NodeJS: 'readonly',
       },
     },
