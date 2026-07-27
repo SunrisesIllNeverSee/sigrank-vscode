@@ -1,7 +1,7 @@
 {
   "name": "sigrank",
   "displayName": "SigRank",
-  "description": "Token cascade metrics, leaderboard rank, and MCP bridge \u2014 right in VS Code",
+  "description": "Token cascade metrics, leaderboard rank, and MCP bridge — right in VS Code",
   "version": "0.1.0",
   "publisher": "sigrank",
   "author": "SunrisesIllNeverSee (https://github.com/SunrisesIllNeverSee)",
@@ -126,7 +126,7 @@
         },
         "sigrank.statusBarFormat": {
           "type": "string",
-          "default": "\u03a5 {yield} \u00b7 {class}",
+          "default": "Υ {yield} · {class}",
           "description": "Status bar format. Variables: {yield}, {leverage}, {velocity}, {snr}, {class}, {rank}"
         }
       }
@@ -143,15 +143,14 @@
     "publish": "vsce publish"
   },
   "devDependencies": {
-    "@types/vscode": "^1.85.0",
     "@types/node": "^20.14.0",
+    "@types/vscode": "^1.85.0",
     "@typescript-eslint/eslint-plugin": "^8.0.0",
     "@typescript-eslint/parser": "^8.0.0",
-    "eslint": "^9.0.0",
-    "typescript": "^5.6.0",
     "@vscode/test-electron": "^3.0.0",
-    "@vscode/vsce": "^3.2.0"
+    "@vscode/vsce": "^3.2.0",
+    "eslint": "^10.8.0",
+    "typescript": "^5.6.0"
   },
-  "dependencies": {},
   "pricing": "Free"
 }
