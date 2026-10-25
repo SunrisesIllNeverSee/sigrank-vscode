@@ -153,5 +153,8 @@
     "eslint": "^10.8.0",
     "typescript": "^5.6.0"
   },
-  "pricing": "Free"
+  "pricing": "Free",
+  "overrides": {
+    "uuid": "^11.1.1"
+  }
 }
